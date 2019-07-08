@@ -6,4 +6,7 @@ $ npm install
 
 $ npm run dev or npm start
 
+This project is done in nodejs and mongodb.
+You need install both technologies
+
 Back-end is on the port 8080
