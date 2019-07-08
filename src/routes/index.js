@@ -17,10 +17,8 @@ router.put('/task/delete/:task_id', TaskController.deleteTask);
 
 //Task
 router.get('/state', StateController.showStates);
-router.get('/state/array', StateController.createArrayStates);
 router.post('/state', StateController.createState);
 router.put('/state/:state_id', StateController.editState);
-//router.put('/state/delete/:id', StateController.deleteState);
 
 
 
