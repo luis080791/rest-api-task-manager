@@ -5,7 +5,7 @@ let State = require('../models/state');
 
 //Export requests
 exports.showStates = function (req, res) {    
-    State.find(  { $where: function() { return this.status == true } } ).exec(function (err, states) {
+    State.find({ $where: function() { return this.status == true } }).populate('task_ids').exec(function (err, states) {
         if(err)
             return res.send({"error": true})
         else
@@ -19,38 +19,38 @@ exports.showStates = function (req, res) {
 exports.createArrayStates = function (req, res) {
 
     let state;
-    State.find( { $where: function() { return this.status == true } } ).exec(function (err, states) {
+    State.find({ $where: function() { return this.status == true } }).exec(async function (err, states) {
         
         if(err)
             return res.send({"error": true})
         else{
             if(states.length == 0){
                 state =  new State({
-                    code: 1,
+                    code: 'PLA',
                     name: 'Planned',
                     created_at: new Date(),
                     updated_at: new Date(),
                     status: true
                 });
-                state.save();
+                await state.save();
                 
                 state =  new State({
-                    code: 2,
+                    code: 'INP',
                     name: 'In progress',
                     created_at: new Date(),
                     updated_at: new Date(),
                     status: true
                 });
-                state.save();
+                await state.save();
                 
                 state =  new State({
-                    code: 3,
+                    code: "COM",
                     name: 'Completed',
                     created_at: new Date(),
                     updated_at: new Date(),
                     status: true
                 });
-                state.save();
+                await state.save();
                 res.send({status: "ok"});
             }else{
                 return res.send({"error": "For this moment it is imposible create another state."})
@@ -61,7 +61,6 @@ exports.createArrayStates = function (req, res) {
 
 
 exports.createState = function (req, res) {
-
     State.find( { $where: function() { return this.status == true }  }  ).exec(function (err, states) {
         if(err)
             return res.send({"error": true})
@@ -84,8 +83,7 @@ exports.createState = function (req, res) {
 }
 
 exports.editState = function (req, res) {
-    let state_id = req.params.id;
-    console.log(state_id)
+    let state_id = req.params.state_id;
     State.findById(state_id, function (err,state) {
         if(err){
             return res.send({"error": true})
@@ -100,7 +98,7 @@ exports.editState = function (req, res) {
 };
 
 exports.deleteState = function (req, res) {
-    let state_id = req.params.id;
+    let state_id = req.params.state_id;
     State.findById(state_id,function (err,state) {
         if(err){
             return res.send({"error": true})
@@ -109,8 +107,7 @@ exports.deleteState = function (req, res) {
             state.status = false;
             state.updated_at = new Date();
             state.save();
-            res.send({status: "ok"});
+            state.send({status: "ok"});
         }
     });
-
 };

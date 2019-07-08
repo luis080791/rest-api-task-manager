@@ -12,10 +12,6 @@ const TaskSchema = new Schema({
     estimate: {
         type: Number
     },
-    state: {
-        type: Schema.Types.ObjectId,
-        ref: 'State'
-    },
     created_at: {
         type: Date,
         required: true

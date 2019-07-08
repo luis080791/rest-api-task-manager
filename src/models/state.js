@@ -2,14 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const StateSchema = new Schema({
-    code:{
-        type: Number,
+    code: {
+        type: String,
         required: true
     },
     name: {
         type: String,
         required: true
     },
+    task_ids: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Task'
+    }],
     created_at: {
         type: Date,
         required: true
